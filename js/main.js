@@ -68,9 +68,13 @@ function handleclickArticle(event) {
     if (findInFavourites === -1) {
         //Ahora sino está metelo en la lista de fav.
         favourites.push(findCharacters);
+        //10.para no tener que llamar a la API y hacer multiples peticiones que ralenticen a parte de gastar datos del usuario,lo guardaremos en localstorage. A parte, cuando recarguemos página, se mantengan los favoritos que yo tenía guardados. A parte, a nivel propietario puedo trazar por donde ha pasado el usuario. Se guarda en el punto donde se modifican los arrays. set item tiene dos variables, una que es el nombre que le daré en el navegador (puede ser pepino) y luego el array donde está la lista. Recordar cambiarlo a string con json.stringify
+        localStorage.setItem('listStorage', JSON.stringify(favourites));
+
     } else {
         //si ya está en fav, quítamelo. Splice le pongo la posición en la que empiezo y cuantos le quito.
         favourites.splice(findInFavourites, 1);
+        localStorage.setItem('listStorage', JSON.stringify(favourites));
 
     }
     //pintamelo en el listado
@@ -87,6 +91,7 @@ function renderFavourites() {
     //no añadimos listener porque estoy escuchando en el listado de todos. 
 
 }
+
 
 //llamo a la función para que pinte.A esta función le hace falta el array de todos los personajes allCharacters y la constante donde pintarlos characterListCards . 
 
@@ -107,6 +112,7 @@ searchName.addEventListener('input', () => {
 
 //3.Quiero que cargue los datos cuando cargue la página así que colocamos el fetch aquí. Completame el array de los personajes (allCharacters)con los datos de la Api y luego pintame todas las tarjetas.
 
+
 fetch('https://breakingbadapi.com/api/characters')
     .then((response) => response.json())
     .then((jsonData) => {
@@ -115,7 +121,14 @@ fetch('https://breakingbadapi.com/api/characters')
 
     });
 
+// 11. Ahora, aquí en la parte de pintar al cargar la página, debería recuperar los datos del localStorage y que aparecieran pintados, si es que el usuario los tiene guardados, al inicio. 
 
+const savedFav = JSON.parse(localStorage.getItem('listStorage'));
+console.log(savedFav);
+if (savedFav !== null) {
+    favourites = savedFav;
+    renderFavourites();
+}
 
 
 
