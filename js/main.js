@@ -4,7 +4,10 @@
 const characterListCards = document.querySelector('.js-characterlist__cards');
 const favListCards = document.querySelector('.js-favlist__cards');
 const searchName = document.querySelector('.js_search_input');
+const buttonSearch = document.querySelector('.js-button-search');
 const form = document.querySelector('.js-form');
+const noResults = document.querySelector('.js-no-results');
+const refresh = document.querySelector('.js-button-refresh');
 
 
 
@@ -21,8 +24,18 @@ let favourites = [];
 //1.primer paso: pintar la card de cada personajes con una función "pintadora" cogiendo, además, los datos del fichero JSON desde listado pintado en js. OneCharacter es una variable templete para añadirle la función que quiero luego replicar en otros sitos con otro parámetro. La función renderOneCard se le pasa parámetro ya que su variable inicial es local. 
 
 function renderOneCard(oneCharacter) {
+    //12. Para favoritos necesito saber que clase está como favorita para que aparezca seleccionada y sino está que no se seleccione. Luego añado la clase fav al artículo para que la incluya o no según sea. 
+    const findInFavourites = favourites.findIndex((eachCharacterId) => eachCharacterId.char_id === parseInt(oneCharacter.char_id));
+
+    let classFav = '';
+    if (findInFavourites === -1) {
+        classFav = '';
+    } else {
+        classFav = 'selected';
+    }
+
     return `<li>
-    <article class="list__art js-list__art" id="${oneCharacter.char_id}">
+    <article class="list__art js-list__art ${classFav}" id="${oneCharacter.char_id}">
         <img class="list__card--img" src="${oneCharacter.img}" alt="foto">
         <h3 class="list__card--title">${oneCharacter.name}</h3>
         <p class="list__card--description">${oneCharacter.status}</p>
@@ -104,8 +117,14 @@ form.addEventListener('submit', (event) => {
 });
 
 searchName.addEventListener('input', () => {
+    //me gusta más el listener sobre el searchName (input) y según buscan aparezcan.
     const userSearch = searchName.value.toLowerCase();
     const filteredCharacters = allCharacters.filter((eachCharacter) => eachCharacter.name.toLowerCase().includes(userSearch));
+    if (filteredCharacters.length === 0) {
+        noResults.innerHTML = ('Lo siento, el usuario que has introducido no está registrado.');
+    } else {
+        noResults.innerHTML = '';
+    }
     renderAllCards(filteredCharacters);
 });
 
@@ -124,11 +143,24 @@ fetch('https://breakingbadapi.com/api/characters')
 // 11. Ahora, aquí en la parte de pintar al cargar la página, debería recuperar los datos del localStorage y que aparecieran pintados, si es que el usuario los tiene guardados, al inicio. 
 
 const savedFav = JSON.parse(localStorage.getItem('listStorage'));
-console.log(savedFav);
+//la primera vez que entro te va a intenetar sacar los favoritos y no va a encontrar nada así que dará null y dará error por tanto. Para ello incluimos el if diciendo que si sav es diferente de null lo pinto, si es null no lo pintaré y me evito el error.
 if (savedFav !== null) {
     favourites = savedFav;
     renderFavourites();
 }
+
+//13. botón refresh
+const refreshFav = () => {
+    favListCards.innerHTML = '';
+    if (favListCards === '') {
+        characterListCards.classList.remove('selected');
+
+    }
+    //tendría que añadir borrar del localstorage.
+}
+
+refresh.addEventListener('click', refreshFav);
+
 
 
 

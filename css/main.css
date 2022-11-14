@@ -53,6 +53,16 @@
     margin: 5px;
     color: white;
     width: 10%;
+    border-radius: 5px;
+}
+.button__refresh{
+    background-color: orange;
+    border: none;
+    padding: 5px;
+    margin: 5px;
+    color: white;
+    border-radius: 5px;
+
 }
 .input {
     margin: 5px;
@@ -160,4 +170,9 @@
 
 .hidden {
     display: none;
+}
+
+.noresults {
+    margin-top: 50px;
+    font-size: 25 px;
 }
