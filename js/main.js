@@ -50,6 +50,7 @@ function renderOneCard(oneCharacter) {
 
 function renderAllCards(characters) {
     let html = '';
+    characterListCards.innerHTML = '';
     for (let i = 0; i < characters.length; i++) {
         html += renderOneCard(characters[i]);
     }
@@ -101,9 +102,7 @@ function renderFavourites() {
         html += renderOneCard(favourites[i]);
     }
     favListCards.innerHTML = html;
-    if (favListCards.length === 0) {
-        paintFavDefault();
-    }
+
     //no añadimos listener porque estoy escuchando en el listado de todos. 
 
 }
@@ -162,10 +161,12 @@ function paintFavDefault() {
                     </li>`;
 }
 //13. botón refresh
-const refreshFav = () => {
+function refreshFav() {
     paintFavDefault();
     localStorage.removeItem('listStorage', JSON.stringify(favourites));
-    eachArticle.classList.remove('selected');
+    favourites = [];
+
+    renderAllCards(allCharacters);
 
 }
 
