@@ -79,7 +79,7 @@ function paintFavDefault() {
                         
                     </li>`;
 }
-
+paintFavDefault();
 //--------------Resto de funciones--------------
 
 
@@ -153,7 +153,7 @@ fetch('https://breakingbadapi.com/api/characters')
     .then((jsonData) => {
         allCharacters = jsonData;
         renderAllCards(allCharacters);
-        paintFavDefault();
+
 
     });
 
@@ -163,7 +163,7 @@ const savedFav = JSON.parse(localStorage.getItem('listStorage'));
 if (savedFav !== null) {
     favourites = savedFav;
     renderFavourites();
-    paintFavDefault();
+
 }
 
 
