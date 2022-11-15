@@ -153,7 +153,7 @@ fetch('https://breakingbadapi.com/api/characters')
     .then((jsonData) => {
         allCharacters = jsonData;
         renderAllCards(allCharacters);
-
+        paintFavDefault();
 
     });
 

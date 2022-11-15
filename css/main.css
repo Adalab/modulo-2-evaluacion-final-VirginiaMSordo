@@ -154,7 +154,7 @@
 /* ELEMENTOS SELECCIONADOS */
 
 .list__art.selected {
-    background-color: orange;
+    background-color: rgb(237, 174, 56);
     color: white;
 }
 
