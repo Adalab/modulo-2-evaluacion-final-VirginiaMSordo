@@ -101,6 +101,9 @@ function renderFavourites() {
         html += renderOneCard(favourites[i]);
     }
     favListCards.innerHTML = html;
+    if (favListCards.length === 0) {
+        paintFavDefault();
+    }
     //no añadimos listener porque estoy escuchando en el listado de todos. 
 
 }
@@ -149,14 +152,21 @@ if (savedFav !== null) {
     renderFavourites();
 }
 
+function paintFavDefault() {
+    favListCards.innerHTML = ` <li class="list">
+                        <article class="list__art js-list__art">
+                            <img class="list__card--img" src="./img/choose.png" alt="foto">
+                            <h3 class="list__card--title">Select your fav from the list</h3>
+                        </article> 
+                        
+                    </li>`;
+}
 //13. botón refresh
 const refreshFav = () => {
-    favListCards.innerHTML = '';
-    if (favListCards === '') {
-        characterListCards.classList.remove('selected');
+    paintFavDefault();
+    localStorage.removeItem('listStorage', JSON.stringify(favourites));
+    eachArticle.classList.remove('selected');
 
-    }
-    //tendría que añadir borrar del localstorage.
 }
 
 refresh.addEventListener('click', refreshFav);
